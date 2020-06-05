@@ -1,0 +1,10 @@
+# Dependencies
+node_modules
+client/node_modules
+
+# Server Config
+config/default.json
+config/production.json
+
+# Client build
+client/build
