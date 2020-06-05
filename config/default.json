@@ -1,0 +1,5 @@
+{
+  "port": 5000,
+  "mongoUrl": "mongodb+srv://modesnero:cn6Z1zZfmvY8znS8@notes-app-qlzju.mongodb.net/NotesApp?retryWrites=true&w=majority",
+  "jwtSecret": "cn6Z1zZfmvY8znS8"
+}
