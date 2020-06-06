@@ -4,7 +4,15 @@ import { Row, Col, Button } from 'react-bootstrap'
 import NoteCard from '../note-card'
 
 export default function NotesList (props) {
-  const { notes, deleteNote, editNote, setPage, userName, userSurname } = props
+  const {
+    notes,
+    deleteNote,
+    editNote,
+    setPage,
+    userName,
+    userSurname,
+    addVote
+  } = props
   let { searchValue } = props
 
   const filter = (title, text) => {
@@ -32,6 +40,7 @@ export default function NotesList (props) {
         userSurname={userSurname}
         name={name}
         surname={surname}
+        addVote={addVote}
         text={text}
         key={id}
         id={id}

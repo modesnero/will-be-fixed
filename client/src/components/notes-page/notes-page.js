@@ -76,6 +76,19 @@ export default class NotesPage extends Component {
     }
   }
 
+  addVote = async (name, surname) => {
+    try {
+      await this.apiService.addVote(this.props.token, name, surname)
+      this.setAlert(
+        true,
+        `Вы отдали свой голос - ${name} ${surname}`,
+        'success'
+      )
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
   render () {
     const { setToken, token, name, surname } = this.props
     const { notes, page, searchValue, alert, editNote, loading } = this.state
@@ -120,6 +133,7 @@ export default class NotesPage extends Component {
               deleteNote={this.deleteNote}
               editNote={this.clickEdit}
               searchValue={searchValue}
+              addVote={this.addVote}
             />
           ) : null}
 

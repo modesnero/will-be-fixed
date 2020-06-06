@@ -15,7 +15,8 @@ export default function NoteCard (props) {
     name,
     surname,
     userName,
-    userSurname
+    userSurname,
+    addVote
   } = props
   const dateStr = moment(date)
     .locale('ru')
@@ -37,11 +38,11 @@ export default function NoteCard (props) {
           <Card.Text>{text}</Card.Text>
         </Card.Body>
 
-        <Card.Footer className="pt-3 pb-3">
+        <Card.Footer className='pt-3 pb-3'>
           <Container>
             <Row>
               {isUserNote ? (
-                <Col className="ml-0 pl-0">
+                <Col className='ml-0 pl-0'>
                   <Button
                     variant='light'
                     size='sm'
@@ -58,7 +59,18 @@ export default function NoteCard (props) {
                     Удалить
                   </Button>
                 </Col>
-              ) : null}
+              ) : (
+                <Col className='ml-0 pl-0'>
+                  <Button
+                    variant='light'
+                    size='sm'
+                    className='mr-3'
+                    onClick={() => addVote(name, surname)}
+                  >
+                    Отдать голос
+                  </Button>
+                </Col>
+              )}
               <Col>
                 <p className='text-right mb-0'>{dateStr}</p>
               </Col>

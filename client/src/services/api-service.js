@@ -14,6 +14,15 @@ export default class ApiService {
     return { result: await response.json(), status: await response.status }
   }
 
+  addVote = async (token, name, surname) => {
+    const response = await fetch('/api/auth/vote', {
+      method: 'PUT',
+      headers: this._getHeaders(token, true),
+      body: JSON.stringify({ name, surname })
+    })
+    return { result: await response.json(), status: await response.status }
+  }
+
   getNote = async (token, id) => {
     const url = id ? `/api/notes/id=${id}` : '/api/notes/'
     const response = await fetch(url, { headers: this._getHeaders(token) })
