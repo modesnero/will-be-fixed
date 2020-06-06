@@ -17,7 +17,8 @@ export default class NotesPage extends Component {
     alertInterval: null,
     editNote: {},
     searchValue: '',
-    loading: false
+    loading: false,
+    votes: []
   }
 
   apiService = new ApiService()
@@ -47,7 +48,9 @@ export default class NotesPage extends Component {
       this.setLoading(true)
       if (action) await action(...args)
 
-      const { result: notes } = await this.apiService.getNote(this.props.token)
+      const { token } = this.props
+      const { result: notes } = await this.apiService.getNote(token)
+
       this.setState({ notes })
 
       this.setLoading(false)
@@ -134,6 +137,9 @@ export default class NotesPage extends Component {
               editNote={this.clickEdit}
               searchValue={searchValue}
               addVote={this.addVote}
+              apiService={this.apiService}
+              token={token}
+              loadNotes={this.loadNotes}
             />
           ) : null}
 

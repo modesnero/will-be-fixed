@@ -36,16 +36,16 @@ router.post('/register', async (req, res) => {
   }
 })
 
-router.get('/vote', async (req, res) => {
+router.get('/vote/:email', async (req, res) => {
   try {
     // Parse request
     const { auth: token } = req.headers
+    const { email } = req.params
 
     // Check auth
     if (!token) return res.status(401).json({ message: 'Ошибка авторизации' })
-    const { email } = jwt.verify(token, config.get('jwtSecret'))
 
-    const { vote } = await User.find({ email })
+    const { vote } = await User.findOne({ email })
     res.json(vote)
   } catch (e) {
     res.status(500).json({ message: 'Ошибка сервера' })
@@ -62,19 +62,24 @@ router.put('/vote', async (req, res) => {
     if (!token) return res.status(401).json({ message: 'Ошибка авторизации' })
     const { email } = jwt.verify(token, config.get('jwtSecret'))
 
-    const userVoting = User.findOne({ email })
-    const userTarget = User.findOne({ name, surname })
+    const userVoting = await User.findOne({ email })
+    const userTarget = await User.findOne({ name, surname })
 
     // delete previos vote
-    const curVoteVoting = User.findOne({ email: userVoting.myVoteEmail }).vote
-    User.updateOne(
+    const userPreviosVote = await User.findOne({
+      email: userVoting.myVoteEmail
+    })
+    await User.updateOne(
       { email: userVoting.myVoteEmail },
-      { vote: curVoteVoting - 1 }
+      { vote: userPreviosVote.vote - 1 }
     )
 
     // add new vote
-    const curVoteTarget = User.findOne({ email: userTarget }).vote
-    User.updateOne({ email: userTarget }, { vote: curVoteTarget + 1 })
+    await User.updateOne(
+      { email: userTarget.email },
+      { vote: userTarget.vote + 1 }
+    )
+    await User.updateOne({ email }, { myVoteEmail: userTarget.email })
     res.json({ message: 'Ваш голос был успешно изменён' })
   } catch (error) {
     res.status(500).json({ message: 'Ошибка сервера' })

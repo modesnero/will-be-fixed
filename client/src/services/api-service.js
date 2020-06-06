@@ -23,6 +23,12 @@ export default class ApiService {
     return { result: await response.json(), status: await response.status }
   }
 
+  getVote = async (token, email) => {
+    const url = `/api/auth/vote/${email}`
+    const response = await fetch(url, { headers: this._getHeaders(token) })
+    return { result: await response.json(), status: await response.status }
+  }
+
   getNote = async (token, id) => {
     const url = id ? `/api/notes/id=${id}` : '/api/notes/'
     const response = await fetch(url, { headers: this._getHeaders(token) })

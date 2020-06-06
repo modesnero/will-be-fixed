@@ -3,6 +3,8 @@ import { Row, Col, Button } from 'react-bootstrap'
 
 import NoteCard from '../note-card'
 
+
+
 export default function NotesList (props) {
   const {
     notes,
@@ -11,7 +13,10 @@ export default function NotesList (props) {
     setPage,
     userName,
     userSurname,
-    addVote
+    addVote,
+    token,
+    apiService,
+    loadNotes
   } = props
   let { searchValue } = props
 
@@ -27,6 +32,7 @@ export default function NotesList (props) {
   const items = notes.map(note => {
     const {
       _id: id,
+      email,
       note: { title, text, date, name, surname }
     } = note
 
@@ -35,13 +41,17 @@ export default function NotesList (props) {
         deleteNote={deleteNote}
         editNote={editNote}
         title={title}
+        token={token}
         date={date}
+        email={email}
         userName={userName}
         userSurname={userSurname}
         name={name}
         surname={surname}
         addVote={addVote}
         text={text}
+        loadNotes={loadNotes}
+        apiService={apiService}
         key={id}
         id={id}
       />
