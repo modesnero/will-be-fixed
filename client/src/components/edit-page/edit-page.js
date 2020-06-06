@@ -6,10 +6,10 @@ import FormInput from '../form-input'
 import FormTextarea from '../form-textarea'
 
 export default class EditPage extends Component {
-  constructor ({ editNote }) {
+  constructor ({ editNote, name, surname }) {
     super()
     const { title, text, date } = editNote.note
-    this.state = { title, text, date }
+    this.state = { title, text, date, name, surname }
   }
 
   apiService = new ApiService()

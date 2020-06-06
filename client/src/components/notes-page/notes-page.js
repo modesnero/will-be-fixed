@@ -143,6 +143,8 @@ export default class NotesPage extends Component {
               loadNotes={this.loadNotes}
               setAlert={this.setAlert}
               editNote={editNote}
+              name={name}
+              surname={surname}
             />
           ) : null}
         </Container>
