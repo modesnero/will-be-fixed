@@ -1,5 +1,5 @@
-﻿# Notes App
-Notes manager on React, Bootstrap, ExpressJS & Mongoose
+﻿# Will Be Fixed
+Project on digital breakpoint 2020
 
 ## Available Scripts
 
@@ -8,6 +8,9 @@ Install server dependencies
 
 ### `npm run client:install`
 Install client dependencies
+
+### `npm run client:build`
+Build client packages
 
 ### `npm run dev`
 Runs the app in the development mode
