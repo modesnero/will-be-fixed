@@ -5,7 +5,6 @@
   "description": "Client side for notes-app",
   "author": "modesnero <modesnero@gmail.com>",
   "license": "UNLICENSED",
-  "homepage": "http://85.192.35.129/",
   "repository": {
     "type": "git",
     "url": "https://github.com/modesnero/notes-app"

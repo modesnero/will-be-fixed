@@ -14,6 +14,7 @@ export default function HeaderNav (props) {
     <Nav className='mr-auto'>
       <Nav.Link onClick={() => ckickPage('home')}>Каталог</Nav.Link>
       <Nav.Link onClick={() => ckickPage('add')}>Добавить</Nav.Link>
+      <Nav.Link onClick={() => ckickPage('cabinet')}>Личный кабинет</Nav.Link>
       <Nav.Link onClick={() => setToken('')}>Выйти</Nav.Link>
     </Nav>
   )

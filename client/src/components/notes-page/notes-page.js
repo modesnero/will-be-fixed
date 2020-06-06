@@ -8,6 +8,7 @@ import SearchView from '../search-view'
 import AddPage from '../add-page'
 import EditPage from '../edit-page'
 import Alert from '../alert'
+import CabinetPage from '../cabinet-page'
 
 export default class NotesPage extends Component {
   state = {
@@ -155,6 +156,8 @@ export default class NotesPage extends Component {
               surname={surname}
             />
           ) : null}
+
+          {page === 'cabinet' ? <CabinetPage /> : null}
 
           {page === 'edit' ? (
             <EditPage
