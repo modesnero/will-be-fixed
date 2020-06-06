@@ -9,6 +9,7 @@ import AddPage from '../add-page'
 import EditPage from '../edit-page'
 import Alert from '../alert'
 import CabinetPage from '../cabinet-page'
+import TopPage from '../top-page'
 
 export default class NotesPage extends Component {
   state = {
@@ -158,6 +159,8 @@ export default class NotesPage extends Component {
           ) : null}
 
           {page === 'cabinet' ? <CabinetPage /> : null}
+
+          {page === 'top' ? <TopPage /> : null}
 
           {page === 'edit' ? (
             <EditPage
