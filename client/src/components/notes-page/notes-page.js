@@ -77,7 +77,7 @@ export default class NotesPage extends Component {
   }
 
   render () {
-    const { setToken, token } = this.props
+    const { setToken, token, name, surname } = this.props
     const { notes, page, searchValue, alert, editNote, loading } = this.state
 
     const spinnerView = (
@@ -114,6 +114,8 @@ export default class NotesPage extends Component {
           {page === 'home' && !loading ? (
             <NotesList
               notes={notes}
+              userName={name}
+              userSurname={surname}
               setPage={this.setPage}
               deleteNote={this.deleteNote}
               editNote={this.clickEdit}
@@ -129,6 +131,8 @@ export default class NotesPage extends Component {
               setPage={this.setPage}
               loadNotes={this.loadNotes}
               setAlert={this.setAlert}
+              name={name}
+              surname={surname}
             />
           ) : null}
 

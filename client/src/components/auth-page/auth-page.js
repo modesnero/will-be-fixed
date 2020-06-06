@@ -8,7 +8,7 @@ import Alert from '../alert'
 export default class AuthPage extends Component {
   state = {
     isLogin: true,
-    formValue: { email: '', pass: '', confirm: '' },
+    formValue: { email: '', pass: '', confirm: '', name: '', surname: '' },
     btnTitle: { submitBtn: 'Авторизация', toggleBtn: 'Регистрация' },
     alert: { isShow: false, message: '', color: '' },
     alertInterval: null
@@ -29,19 +29,25 @@ export default class AuthPage extends Component {
   }
 
   onFieldChange = (event, fieldName) => {
-    const { email, pass, confirm } = this.state.formValue
+    const { email, pass, confirm, name, surname } = this.state.formValue
 
     let formValue
     const newValue = event.target.value
     switch (fieldName) {
       case 'email':
-        formValue = { email: newValue, pass, confirm }
+        formValue = { email: newValue, pass, confirm, name, surname }
         break
       case 'pass':
-        formValue = { pass: newValue, email, confirm }
+        formValue = { pass: newValue, email, confirm, name, surname }
         break
       case 'confirm':
-        formValue = { confirm: newValue, email, pass }
+        formValue = { confirm: newValue, email, pass, name, surname }
+        break
+      case 'name':
+        formValue = { name: newValue, email, pass, confirm, surname }
+        break
+      case 'surname':
+        formValue = { surname: newValue, email, pass, confirm, name }
         break
       default:
         console.error('Unexpected field name')
@@ -61,7 +67,7 @@ export default class AuthPage extends Component {
     })
   }
 
-  register = async (email, password, confirm) => {
+  register = async (email, password, confirm, name, surname) => {
     if (password !== confirm) {
       this.setAlert(true, 'Пароли не совпадают, повторите попытку', 'danger')
       return
@@ -71,7 +77,12 @@ export default class AuthPage extends Component {
       const {
         result: { message },
         status
-      } = await this.apiService.auth('register', { email, password })
+      } = await this.apiService.auth('register', {
+        email,
+        password,
+        name,
+        surname
+      })
 
       const color = status === 400 || status === 500 ? 'danger' : 'success'
       this.setAlert(true, message, color)
@@ -83,11 +94,15 @@ export default class AuthPage extends Component {
   login = async (email, password) => {
     try {
       const {
-        result: { token, message },
+        result: { token, message, name, surname },
         status
       } = await this.apiService.auth('login', { email, password })
 
-      if (token) this.props.setToken(token)
+      if (token) {
+        const { setName, setToken } = this.props
+        setToken(token)
+        setName(name, surname)
+      }
 
       if (message) {
         const color = status === 400 || status === 500 ? 'danger' : 'success'
@@ -102,7 +117,7 @@ export default class AuthPage extends Component {
     event.preventDefault()
     const {
       isLogin,
-      formValue: { email, pass, confirm }
+      formValue: { email, pass, confirm, name, surname }
     } = this.state
 
     this.setState({
@@ -110,7 +125,9 @@ export default class AuthPage extends Component {
       alert: { variant: '', message: '', isShow: false }
     })
 
-    isLogin ? this.login(email, pass) : this.register(email, pass, confirm)
+    isLogin
+      ? this.login(email, pass)
+      : this.register(email, pass, confirm, name, surname)
   }
 
   render () {
@@ -142,14 +159,32 @@ export default class AuthPage extends Component {
               />
 
               {!isLogin ? (
-                <FormInput
-                  type='password'
-                  field='confirm'
-                  title='Проверка пароля'
-                  placeholder='Повторите пароль'
-                  value={formValue.confirm}
-                  onFieldChange={this.onFieldChange}
-                />
+                <>
+                  <FormInput
+                    type='password'
+                    field='confirm'
+                    title='Проверка пароля'
+                    placeholder='Повторите пароль'
+                    value={formValue.confirm}
+                    onFieldChange={this.onFieldChange}
+                  />
+                  <FormInput
+                    type='text'
+                    field='name'
+                    title='Имя'
+                    placeholder='Введите ваше имя'
+                    value={formValue.name}
+                    onFieldChange={this.onFieldChange}
+                  />
+                  <FormInput
+                    type='text'
+                    field='surname'
+                    title='Фамилия'
+                    placeholder='Введите вашу фамилию'
+                    value={formValue.surname}
+                    onFieldChange={this.onFieldChange}
+                  />{' '}
+                </>
               ) : null}
 
               <Button type='submit' variant='primary' className='mb-3' block>

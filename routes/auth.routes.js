@@ -8,7 +8,7 @@ const router = Router()
 
 router.post('/register', async (req, res) => {
   try {
-    const { email, password } = req.body
+    const { email, password, name, surname } = req.body
 
     // Check on already exist account
     const candidate = await User.findOne({ email })
@@ -18,7 +18,7 @@ router.post('/register', async (req, res) => {
 
     // Hash password & chreate user
     const hashedPassword = await bcrypt.hash(password, 12)
-    const user = new User({ email, password: hashedPassword })
+    const user = new User({ email, password: hashedPassword, name, surname })
 
     // Save user in DB & response
     await user.save()
@@ -38,6 +38,7 @@ router.post('/login', async (req, res) => {
     if (!user) {
       return res.status(400).json({ message: 'Пользователь не найден' })
     }
+    const { name, surname } = user
 
     // Check user password
     const isMatch = await bcrypt.compare(password, user.password)
@@ -49,7 +50,7 @@ router.post('/login', async (req, res) => {
     const token = jwt.sign({ email }, config.get('jwtSecret'), {
       expiresIn: '1800 days'
     })
-    res.json({ token })
+    res.json({ token, name, surname })
   } catch (e) {
     res.status(500).json({ message: 'Ошибка сервера' })
   }

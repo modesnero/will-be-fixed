@@ -4,7 +4,7 @@ import { Row, Col, Button } from 'react-bootstrap'
 import NoteCard from '../note-card'
 
 export default function NotesList (props) {
-  const { notes, deleteNote, editNote, setPage } = props
+  const { notes, deleteNote, editNote, setPage, userName, userSurname } = props
   let { searchValue } = props
 
   const filter = (title, text) => {
@@ -19,7 +19,7 @@ export default function NotesList (props) {
   const items = notes.map(note => {
     const {
       _id: id,
-      note: { title, text, date }
+      note: { title, text, date, name, surname }
     } = note
 
     const itemView = (
@@ -28,6 +28,10 @@ export default function NotesList (props) {
         editNote={editNote}
         title={title}
         date={date}
+        userName={userName}
+        userSurname={userSurname}
+        name={name}
+        surname={surname}
         text={text}
         key={id}
         id={id}
@@ -39,8 +43,8 @@ export default function NotesList (props) {
 
   const emptyListView = (
     <>
-      <h3 className='mb-3'>Каталог заметок пуст</h3>
-      <Button onClick={() => setPage('add')}>Добавить заметку</Button>
+      <h3 className='mb-3'>Каталог записей пуст</h3>
+      <Button onClick={() => setPage('add')}>Добавить запись</Button>
     </>
   )
 

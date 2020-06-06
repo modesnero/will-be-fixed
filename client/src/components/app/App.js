@@ -5,23 +5,36 @@ import NotesPage from '../notes-page'
 
 export default class App extends Component {
   state = {
-    token: localStorage.token ? localStorage.token : ''
+    token: localStorage.WBFtoken ? localStorage.WBFtoken : '',
+    name: localStorage.WBFname ? localStorage.WBFname : '',
+    surname: localStorage.WBFsurname ? localStorage.WBFsurname : ''
   }
 
   setToken = token => {
     this.setState({ token })
-    localStorage.token = token
+    localStorage.WBFtoken = token
+  }
+
+  setName = (name, surname) => {
+    this.setState({ name, surname })
+    localStorage.WBFname = name
+    localStorage.WBFsurname = surname
   }
 
   render () {
-    const { token } = this.state
+    const { token, name, surname } = this.state
 
     return (
       <>
         {token ? (
-          <NotesPage setToken={this.setToken} token={token} />
+          <NotesPage
+            name={name}
+            surname={surname}
+            setToken={this.setToken}
+            token={token}
+          />
         ) : (
-          <AuthPage setToken={this.setToken} />
+          <AuthPage setToken={this.setToken} setName={this.setName} />
         )}
       </>
     )

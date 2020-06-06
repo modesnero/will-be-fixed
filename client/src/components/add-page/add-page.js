@@ -24,9 +24,9 @@ export default class AddPage extends Component {
   submit = async event => {
     event.preventDefault()
 
-    const { loadNotes, setPage, token, setAlert } = this.props
+    const { loadNotes, setPage, token, setAlert, name, surname } = this.props
     const { title, text } = this.state
-    const note = { title, text, date: new Date() }
+    const note = { title, text, date: new Date(), name, surname }
 
     try {
       setPage('home')
@@ -63,7 +63,7 @@ export default class AddPage extends Component {
               />
 
               <Button type='submit' variant='primary' block>
-                Добавить записб
+                Добавить запись
               </Button>
             </Form>
           </Col>

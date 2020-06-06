@@ -1,40 +1,69 @@
 import React from 'react'
-import { Card, Button } from 'react-bootstrap'
+import { Card, Button, Container, Col, Row } from 'react-bootstrap'
 
 import moment from 'moment'
 import 'moment/locale/ru'
 
 export default function NoteCard (props) {
-  const { id, title, text, deleteNote, editNote, date } = props
-
+  const {
+    id,
+    title,
+    text,
+    deleteNote,
+    editNote,
+    date,
+    name,
+    surname,
+    userName,
+    userSurname
+  } = props
   const dateStr = moment(date)
     .locale('ru')
     .format('LLLL')
+
+  const isUserNote = name === userName && surname === userSurname
 
   return (
     <>
       <Card className='mb-4' bg='secondary'>
         <Card.Header>
           <Card.Title>{title}</Card.Title>
-          <Card.Subtitle className='mb-2 text-muted'>{dateStr}</Card.Subtitle>
+          <Card.Subtitle className='mb-2 text-muted'>
+            {name} {surname}
+          </Card.Subtitle>
         </Card.Header>
 
         <Card.Body>
           <Card.Text>{text}</Card.Text>
         </Card.Body>
 
-        <Card.Footer>
-          <Button
-            variant='light'
-            size='sm'
-            className='mr-3'
-            onClick={() => editNote(id)}
-          >
-            Редактировать
-          </Button>
-          <Button variant='light' size='sm' onClick={() => deleteNote(id)}>
-            Удалить
-          </Button>
+        <Card.Footer className="pt-3 pb-3">
+          <Container>
+            <Row>
+              {isUserNote ? (
+                <Col className="ml-0 pl-0">
+                  <Button
+                    variant='light'
+                    size='sm'
+                    className='mr-3'
+                    onClick={() => editNote(id)}
+                  >
+                    Редактировать
+                  </Button>
+                  <Button
+                    variant='light'
+                    size='sm'
+                    onClick={() => deleteNote(id)}
+                  >
+                    Удалить
+                  </Button>
+                </Col>
+              ) : null}
+              <Col>
+                <p className='text-right mb-0'>{dateStr}</p>
+              </Col>
+            </Row>
+          </Container>
         </Card.Footer>
       </Card>
     </>
