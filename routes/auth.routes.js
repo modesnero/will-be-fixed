@@ -69,10 +69,12 @@ router.put('/vote', async (req, res) => {
     const userPreviosVote = await User.findOne({
       email: userVoting.myVoteEmail
     })
-    await User.updateOne(
-      { email: userVoting.myVoteEmail },
-      { vote: userPreviosVote.vote - 1 }
-    )
+    if (userPreviosVote) {
+      await User.updateOne(
+        { email: userVoting.myVoteEmail },
+        { vote: userPreviosVote.vote - 1 }
+      )
+    }
 
     // add new vote
     await User.updateOne(
@@ -82,6 +84,7 @@ router.put('/vote', async (req, res) => {
     await User.updateOne({ email }, { myVoteEmail: userTarget.email })
     res.json({ message: 'Ваш голос был успешно изменён' })
   } catch (error) {
+    console.log(error)
     res.status(500).json({ message: 'Ошибка сервера' })
   }
 })
