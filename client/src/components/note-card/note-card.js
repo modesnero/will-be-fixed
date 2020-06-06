@@ -76,8 +76,8 @@ export default class NoteCard extends React.Component {
                       variant='light'
                       size='sm'
                       className='mr-3'
-                      onClick={() => {
-                        addVote(name, surname)
+                      onClick={async () => {
+                        await addVote(name, surname)
                         this.props.loadNotes()
                       }}
                     >
